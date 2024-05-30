@@ -29,7 +29,11 @@ func serve(args []string) {
 		logger.Fatal("Failed to create service")
 	}
 
-	server := server.NewServer(service, logger)
+	var serverConfig server.Config
+	if envconfig.Init(&serverConfig) != nil {
+		logger.Fatal("Failed to load server config")
+	}
+	server := server.NewServer(service, logger, serverConfig)
 
 	echo := echo.New()
 	server.StartServer(echo)

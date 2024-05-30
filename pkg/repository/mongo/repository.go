@@ -2,7 +2,7 @@ package mongo
 
 import (
 	"context"
-	"rate-limiter/pkg/dom"
+	"rate-limiter/pkg/models"
 	"rate-limiter/pkg/static"
 	"time"
 
@@ -11,8 +11,9 @@ import (
 	"go.uber.org/zap"
 )
 
+// TODO this is probably not necessary if we use another repo for the worker for loading the rules into cache
 type Repository interface {
-	AddUser(ctx context.Context, user dom.User) error
+	AddUser(ctx context.Context, user models.User) error
 }
 
 type repository struct {
@@ -50,7 +51,7 @@ func NewRepository(conf Config, logger *zap.Logger) (Repository, error) {
 }
 
 // AddUser implements Repository.
-func (r *repository) AddUser(ctx context.Context, user dom.User) error {
+func (r *repository) AddUser(ctx context.Context, user models.User) error {
 	collection := r.db.Collection(static.MONGO_REPO_USERS_COLLECTION)
 	// Insert the person document into the collection
 	_, err := collection.InsertOne(ctx, user)

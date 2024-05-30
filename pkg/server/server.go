@@ -22,7 +22,7 @@ type server struct {
 	logger  *zap.Logger
 }
 
-func NewServer(s service.Service, logger *zap.Logger) Server {
+func NewServer(s service.Service, logger *zap.Logger, conf Config) Server {
 	return &server{
 		service: s,
 		logger:  logger,
