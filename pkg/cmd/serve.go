@@ -5,15 +5,13 @@ import (
 	"rate-limiter/pkg/server"
 	"rate-limiter/pkg/service"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/spf13/cobra"
 	"github.com/vrischmann/envconfig"
 	"go.uber.org/zap"
 )
 
 func serve(args []string) {
-	e := echo.New()
-
 	logger, _ := zap.NewDevelopment()
 
 	var mongoConf mongo.Config
@@ -31,7 +29,8 @@ func serve(args []string) {
 		logger.Fatal("Failed to create service")
 	}
 
-	server := server.NewServer(service)
+	server := server.NewServer(service, logger)
+
 	echo := echo.New()
 	server.StartServer(echo)
 }

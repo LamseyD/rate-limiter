@@ -3,10 +3,13 @@ package server
 import (
 	"context"
 	"net/http"
+	"rate-limiter/pkg/middleware/ratelimiter"
 	"rate-limiter/pkg/service"
 
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/vrischmann/envconfig"
+	"go.uber.org/zap"
 )
 
 type Server interface {
@@ -16,17 +19,32 @@ type Server interface {
 
 type server struct {
 	service service.Service
+	logger  *zap.Logger
 }
 
-func NewServer(s service.Service) Server {
+func NewServer(s service.Service, logger *zap.Logger) Server {
 	return &server{
 		service: s,
+		logger:  logger,
 	}
 }
 
 func (s *server) StartServer(e *echo.Echo) {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	// Add rate limiter middleware
+	var rateLimiterConfig ratelimiter.Config
+	if err := envconfig.Init(&rateLimiterConfig); err != nil {
+		s.logger.Fatal("failed to load rate limiter config", zap.Error(err))
+	}
+
+	rateLimiterMiddleware, err := ratelimiter.NewRateLimiter(s.logger, rateLimiterConfig)
+	if err != nil {
+		s.logger.Fatal("failed to create rate limiter middleware", zap.Error(err))
+	}
+
+	e.Use(rateLimiterMiddleware.RateLimit)
 
 	g := e.Group("/api/v1")
 	g.GET("/hello", s.HelloWorld)
