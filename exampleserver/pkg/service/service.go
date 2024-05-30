@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"rate-limiter/pkg/repository/mongo"
 
 	"go.uber.org/zap"
 )
@@ -12,14 +11,12 @@ type Service interface {
 }
 
 type service struct {
-	logger     *zap.Logger
-	repository mongo.Repository
+	logger *zap.Logger
 }
 
-func NewService(logger *zap.Logger, repo mongo.Repository) (Service, error) {
+func NewService(logger *zap.Logger) (Service, error) {
 	return &service{
-		repository: repo,
-		logger:     logger,
+		logger: logger,
 	}, nil
 }
 

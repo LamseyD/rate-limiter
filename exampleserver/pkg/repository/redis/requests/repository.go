@@ -1,7 +1,7 @@
 package requests
 
 import (
-	"rate-limiter/pkg/repository/redis"
+	"exampleserver/pkg/repository/redis"
 
 	"go.uber.org/zap"
 )

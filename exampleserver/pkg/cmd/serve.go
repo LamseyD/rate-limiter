@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"rate-limiter/pkg/repository/mongo"
-	"rate-limiter/pkg/server"
-	"rate-limiter/pkg/service"
+	"exampleserver/pkg/server"
+	"exampleserver/pkg/service"
 
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/cobra"
@@ -14,17 +13,7 @@ import (
 func serve(args []string) {
 	logger, _ := zap.NewDevelopment()
 
-	var mongoConf mongo.Config
-	if envconfig.Init(&mongoConf) != nil {
-		logger.Fatal("Failed to load mongo config")
-	}
-
-	mongoRepo, err := mongo.NewRepository(mongoConf, logger)
-	if err != nil {
-		logger.Fatal("Failed to create mongo repository")
-	}
-
-	service, err := service.NewService(logger, mongoRepo)
+	service, err := service.NewService(logger)
 	if err != nil {
 		logger.Fatal("Failed to create service")
 	}

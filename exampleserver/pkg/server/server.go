@@ -2,9 +2,8 @@ package server
 
 import (
 	"context"
+	"exampleserver/pkg/service"
 	"net/http"
-	"rate-limiter/pkg/middleware/ratelimiter"
-	"rate-limiter/pkg/service"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

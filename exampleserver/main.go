@@ -1,6 +1,6 @@
 package main
 
-import "rate-limiter/pkg/cmd"
+import "exampleserver/pkg/cmd"
 
 func main() {
 	cmd.Execute()

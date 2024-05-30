@@ -11,7 +11,7 @@ import (
 var cfgFile string
 
 var rootCmd = &cobra.Command{
-	Use:   "rate-limiter",
+	Use:   "exampleserver",
 	Short: "rate limiter is a simple rate limiter based on redis",
 	Long:  `rate limiter is a simple rate limiter based on redis`,
 	Run: func(cmd *cobra.Command, args []string) {
