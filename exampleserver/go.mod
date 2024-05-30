@@ -2,7 +2,10 @@ module exampleserver
 
 go 1.20
 
+replace github.com/LamseyD/rate-limiter/ratelimiter => ../ratelimiter
+
 require (
+	github.com/LamseyD/rate-limiter/ratelimiter v0.0.1
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/spf13/cobra v1.8.0
 	go.uber.org/zap v1.21.0
