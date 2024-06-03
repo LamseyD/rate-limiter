@@ -5,7 +5,7 @@ import (
 	"exampleserver/pkg/service"
 	"net/http"
 
-	"github.com/LamseyD/rate-limiter/ratelimiter/pkg/middleware/ratelimiter"
+	"github.com/LamseyD/rate-limiter/ratelimiter/pkg/ratelimiter"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/vrischmann/envconfig"
